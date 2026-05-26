@@ -1,18 +1,21 @@
-# Customer Churn EDA
+# Customer Churn Analysis & Prediction
 
-Exploratory data analysis of customer churn behavior using a dataset of ~12 000 customers with different features including demographics, product usage, support history, and satisfaction scores.
+Exploratory data analysis of customer churn behavior using a dataset of ~10 500 customers with different features including demographics, product usage, support history, and satisfaction scores.
 
+# Customer Churn Prediction
 
-## Project Structure
+## Overview
+Binary classification project predicting customer churn for a Czech 
+e-commerce company using behavioral and demographic data.
 
-```
-├── data/
-│   └── customer_churn_eda_messy.csv    # Raw dataset
-├── customer_eda.ipynb                  # Main analysis notebook
-└── README.md
-```
+## Dataset
+~10,500 customers with 15 features including:
+- Demographics: age, region, estimated income
+- Behavior: monthly sessions, avg spend, support tickets
+- Product: plan type, device, acquisition channel
+- Target: churned (3.2% churn rate — imbalanced)
 
-## Key Findings
+## Key EDA Findings
 
 ### Session Frequency is the strongest retention signal 
 Session Frequency is the strongest retention signal. Churn drops monotonically as monthly session count increases — from 5.1% for customers with 0–8 sessions to 0% for customers with more than 24 sessions per month.
@@ -46,12 +49,31 @@ Monthly sessions and average monthly spend are strongly correlated (r = 0.82). E
 Despite the spend difference, session counts vary by only ~8 sessions between basic and business plan customers. Plan tier alone does not strongly predict how actively a customer uses the product.
 
 
-## Requirements
+## Files
+data/cleaned_data.csv   → cleaned dataset (output of clean.ipynb)
+customer_eda.ipynb      → exploratory data analysis
+clean.ipynb             → data cleaning pipeline
+churn_models.ipynb                → churn prediction models
 
-```
-pandas
-numpy
-matplotlib
-seaborn
-scipy
-```
+## Methods
+- OneHotEncoding for categorical features
+- Stratified 80/20 train/test split
+- class_weight='balanced' to handle class imbalance
+- Models: Logistic Regression, Random Forest, Gradient Boosting
+
+## Results
+| Model | Recall | ROC-AUC |
+|---|---|---|
+| Logistic Regression | 67% | 0.779 |
+| Random Forest | 30% | 0.783 |
+| Gradient Boosting | 59% | 0.784 |
+
+All three models score similarly on ROC-AUC (~0.78), suggesting 
+the churn signal in the available features is moderate.
+
+## Stack
+Python · pandas · scikit-learn · matplotlib · seaborn
+
+## How to run
+pip install -r requirements.txt
+# Open churn_models.ipynb and Kernel → Restart & Run All
